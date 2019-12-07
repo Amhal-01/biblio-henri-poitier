@@ -1,0 +1,128 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-11">
+      <form action="#" class="search">
+        <div class="input-group w-100 col-md-10">
+          <label>Quel livre cherchez vous?
+            <input (taSelected)="selectedTempStatic($event)" [taItemTpl]="bookSearch"
+                   [taList]="books"
+                   [value]="selectedBook?selectedBook.title:''"
+                   class="col-md-10"
+                   ngxTypeahead/>
+            <ng-template #bookSearch let-item>
+              <div class="item-name">
+                {{item.result.title}}
+              </div>
+            </ng-template>
+          </label>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-1">
+      <div class="widgets-wrap float-md-right">
+        <div class="widget-header mr-3">
+          <a routerLink="/cart"><i class="icon icon-sm rounded-circle border fa fa-shopping-cart"></i>
+            <span class="badge badge-pill badge-danger notify">{{bookInTheCart.length}}</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br/>
+<section class="section-content">
+  <div class="container">
+    <header class="section-heading">
+      <h3 class="section-title" style="text-align: center">Nos suggestions</h3>
+    </header>
+    <div class="row">
+      <div class="col-md-4" *ngFor="let book of choices">
+        <div href="#" class="card card-product-grid">
+          <a href="#" class="img-wrap"> <img src="{{ book.cover }}" width="300" height="300" alt="{{ book.title }}">
+          </a>
+          <figcaption class="info-wrap">
+            <a class="title">{{ book.title }}</a>
+            <br/>
+            <div class="price mt-1 badge badge-dark">
+              {{ book.price }} €
+              |
+              <button type="button"
+                      class="btn btn-info fa fa-info"
+                      (click)="getBook(book.isbn)"></button>
+              |
+              <button type="button" class="btn btn-success fa fa-cart-plus" (click)="addToCart(book.isbn)"></button>
+            </div>
+          </figcaption>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<br/>
+<br/>
+<br/>
+<section class="section-content" *ngIf="selectedBook; else allBooks">
+  <div class="container">
+    <header class="section-heading">
+      <h3 class="section-title" style="text-align: center">{{ selectedBook.title | uppercase }}</h3>
+    </header>
+    <div class="row">
+      <div class="col-md-4">
+        <a href="#" class="img-wrap"> <img src="{{ selectedBook.cover }}" width="300" height="300"
+                                           alt="{{ selectedBook.title }}">
+        </a>
+        <figcaption class="info-wrap">
+          <h4 class="title">{{ selectedBook.title }}</h4>
+          <div class="price mt-1  badge badge-dark">
+            {{ selectedBook.price }} €
+            <button type="button" class="btn btn-success fa fa-cart-plus"
+                    (click)="addToCart(selectedBook.isbn)"></button>
+          </div>
+        </figcaption>
+      </div>
+      <div class="col-md-6">
+        <figcaption class="info-wrap">
+          <p>{{ selectedBook.synopsis }}</p>
+        </figcaption>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-success fa fa-cart-plus" (click)="addToCart(selectedBook.isbn)"></button>
+        <button type="button" class="btn btn-outline-danger fa fa-close" (click)="unSelectBook()"></button>
+      </div>
+    </div>
+  </div>
+</section>
+<ng-template #allBooks>
+  <section class="section-content">
+    <div class="container">
+      <header class="section-heading">
+        <h3 class="section-title" style="text-align: center">Livres de notre bibliothèque</h3>
+      </header>
+      <div class="row">
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th scope="col">Couverture</th>
+            <th scope="col">Titre</th>
+            <th scope="col">Prix</th>
+            <th scope="col"></th>
+          </tr>
+          </thead>
+          <tbody *ngFor="let book of books">
+          <tr>
+            <th scope="row"><img class="media-object" src="{{ book.cover }}"
+                                 style="width: 72px; height: 72px;"></th>
+            <td>{{ book.title }}
+              <br/> <em><small>{{ book.isbn }}</small></em></td>
+            <td>{{ book.price }}</td>
+            <td>
+              <button type="button" class="btn btn-success fa fa-cart-plus" (click)="addToCart(book.isbn)"></button>
+              |
+              <button type="button" class="btn btn-info fa fa-info" (click)="getBook(book.isbn)"></button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</ng-template>

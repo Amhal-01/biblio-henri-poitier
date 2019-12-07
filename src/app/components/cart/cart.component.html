@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="row">
+    <div *ngIf="books" class="col-sm-12 col-md-10 col-md-offset-1">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>{{ books.length > 1 ? 'Livres' : 'Livre'}}</th>
+          <th class="text-center">Prix</th>
+          <th> </th>
+        </tr>
+        </thead>
+        <tbody *ngFor="let bCart of books">
+        <tr>
+          <td class="col-md-6">
+            <div class="media">
+              <a class="thumbnail pull-left" href="#"> <img class="media-object" src="{{ bCart.cover }}"
+                                                            style="width: 72px; height: 72px;"> </a>
+              <div class="media-body">
+                <h3 class="media-heading">{{bCart.title}}</h3>
+                <p class="media-heading"><i>{{ bCart.synopsis | slice:0:1 }}...</i></p>
+              </div>
+            </div>
+          </td>
+          <td class="col-md-1 text-center"><strong>{{bCart.price}} €</strong></td>
+          <td class="col-md-1">
+            <button type="button" class="btn btn-danger" (click)="removeBook(bCart.isbn)">Pour la prochaine fois?
+            </button>
+          </td>
+        </tr>
+        </tbody>
+        <tr>
+          <td>  </td>
+          <td><h5>Total avant remise</h5></td>
+          <td class="text-right"><h3><strong>{{ subtotal }} €</strong></h3></td>
+        </tr>
+        <tr>
+          <td>  </td>
+          <td><h5>Remise</h5></td>
+          <td class="text-right"><h3><strong>{{ discount }} €</strong></h3></td>
+        </tr>
+        <tr>
+          <td>  </td>
+          <td><h3>Net à payer</h3></td>
+          <td class="text-right"><h3><strong>{{ total }} €</strong></h3></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <button type="button" class="btn btn-default" (click)="router.navigate(['/'])">Encore tôt pour payer?
+              Revenez voir d'autres livres
+            </button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-success" (click)="checkout()">Payez maintenant
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
